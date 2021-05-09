@@ -35,9 +35,9 @@ export default class Popover extends Element {
       showButtons: true,
       closeBtnText: 'Close',
       doneBtnText: 'Done',
-      startBtnText: 'Next &rarr;',
-      nextBtnText: 'Next &rarr;',
-      prevBtnText: '&larr; Previous',
+      startBtnText: 'Next',
+      nextBtnText: 'Next',
+      prevBtnText: 'Previous',
       ...options,
     };
 
