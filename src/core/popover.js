@@ -1,14 +1,18 @@
 import Element from './element';
 import {
   CLASS_BTN_DISABLED,
-  CLASS_CLOSE_BTN,
-  CLASS_CLOSE_ONLY_BTN,
+  // TODO: Handle close button later
+  // CLASS_CLOSE_BTN,
+  // CLASS_CLOSE_ONLY_BTN,
   CLASS_NEXT_STEP_BTN,
   CLASS_POPOVER_DESCRIPTION,
   CLASS_POPOVER_FOOTER,
   CLASS_POPOVER_TIP,
   CLASS_POPOVER_TITLE,
   CLASS_PREV_STEP_BTN,
+  CLASS_BULLETS,
+  CLASS_BULLET,
+  CLASS_ACTIVE_BULLET,
   ID_POPOVER,
   POPOVER_HTML,
 } from '../common/constants';
@@ -38,6 +42,12 @@ export default class Popover extends Element {
       startBtnText: 'Next',
       nextBtnText: 'Next',
       prevBtnText: 'Previous',
+      showBullets: true,
+      showNextButton: true,
+      showPrevButton: false,
+      showTip: false,
+      // TODO: Handle close button later
+      // showCloseButton: true,
       ...options,
     };
 
@@ -65,7 +75,9 @@ export default class Popover extends Element {
     this.footerNode = popover.querySelector(`.${CLASS_POPOVER_FOOTER}`);
     this.nextBtnNode = popover.querySelector(`.${CLASS_NEXT_STEP_BTN}`);
     this.prevBtnNode = popover.querySelector(`.${CLASS_PREV_STEP_BTN}`);
-    this.closeBtnNode = popover.querySelector(`.${CLASS_CLOSE_BTN}`);
+    // TODO: Handle close button later
+    // this.closeBtnNode = popover.querySelector(`.${CLASS_CLOSE_BTN}`);
+    this.bulletsNode = popover.querySelector(`.${CLASS_BULLETS}`);
   }
 
   /**
@@ -114,6 +126,25 @@ export default class Popover extends Element {
     this.node
       .querySelector(`.${CLASS_POPOVER_TIP}`)
       .className = CLASS_POPOVER_TIP;
+
+    if (!this.options.showTip) {
+      this.tipNode.style.display = 'none';
+    }
+  }
+
+  /**
+   * Generate Bullets
+   * @private
+   */
+  generateBullets() {
+    for (let i = 0; i < this.options.totalCount; i++) {
+      const bulletNode = this.document.createElement('div');
+      bulletNode.classList.add(CLASS_BULLET);
+      if (this.options.currentIndex === i) {
+        bulletNode.classList.add(CLASS_ACTIVE_BULLET);
+      }
+      this.bulletsNode.appendChild(bulletNode);
+    }
   }
 
   /**
@@ -194,7 +225,8 @@ export default class Popover extends Element {
   renderFooter() {
     this.nextBtnNode.innerHTML = this.options.nextBtnText;
     this.prevBtnNode.innerHTML = this.options.prevBtnText;
-    this.closeBtnNode.innerHTML = this.options.closeBtnText;
+    // TODO: Handle close button later
+    // this.closeBtnNode.innerHTML = this.options.closeBtnText;
 
     const hasSteps = this.options.totalCount && this.options.totalCount !== 1;
 
@@ -209,12 +241,14 @@ export default class Popover extends Element {
     if (!hasSteps) {
       this.nextBtnNode.style.display = 'none';
       this.prevBtnNode.style.display = 'none';
-      this.closeBtnNode.classList.add(CLASS_CLOSE_ONLY_BTN);
+      // TODO: Handle close button later
+      // this.closeBtnNode.classList.add(CLASS_CLOSE_ONLY_BTN);
     } else {
       // @todo modify CSS to use block
       this.nextBtnNode.style.display = 'inline-block';
       this.prevBtnNode.style.display = 'inline-block';
-      this.closeBtnNode.classList.remove(CLASS_CLOSE_ONLY_BTN);
+      // TODO: Handle close button later
+      // this.closeBtnNode.classList.remove(CLASS_CLOSE_ONLY_BTN);
     }
 
     this.footerNode.style.display = 'block';
@@ -229,6 +263,21 @@ export default class Popover extends Element {
       this.nextBtnNode.innerHTML = this.options.doneBtnText;
     } else {
       this.nextBtnNode.innerHTML = this.options.nextBtnText;
+    }
+
+    if (!this.options.showNextButton) {
+      this.nextBtnNode.style.display = 'none';
+    }
+    if (!this.options.showPrevButton) {
+      this.prevBtnNode.style.display = 'none';
+      this.bulletsNode.style.justifyContent = 'start';
+    }
+    // TODO: Handle close button later
+    // if (!this.options.showCloseButton) {
+    //   this.closeBtnNode.style.display = 'none';
+    // }
+    if (this.options.showBullets) {
+      this.generateBullets();
     }
   }
 

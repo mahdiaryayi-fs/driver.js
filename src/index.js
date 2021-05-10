@@ -2,7 +2,8 @@ import Overlay from './core/overlay';
 import Element from './core/element';
 import Popover from './core/popover';
 import {
-  CLASS_CLOSE_BTN,
+  // TODO: Handle close button later
+  // CLASS_CLOSE_BTN,
   CLASS_NEXT_STEP_BTN,
   CLASS_PREV_STEP_BTN,
   ESC_KEY_CODE,
@@ -138,12 +139,13 @@ export default class Driver {
 
     const nextClicked = e.target.classList.contains(CLASS_NEXT_STEP_BTN);
     const prevClicked = e.target.classList.contains(CLASS_PREV_STEP_BTN);
-    const closeClicked = e.target.classList.contains(CLASS_CLOSE_BTN);
+    // TODO: Handle close button later
+    // const closeClicked = e.target.classList.contains(CLASS_CLOSE_BTN);
 
-    if (closeClicked) {
-      this.reset();
-      return;
-    }
+    // if (closeClicked) {
+    //   this.reset();
+    //   return;
+    // }
 
     if (nextClicked) {
       this.handleNext();
